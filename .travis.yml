@@ -1,6 +1,11 @@
 language: minimal
+env:
+  global:
+    - HELM_VERSION="v2.12.3"
 services:
   - docker
+install:
+  - bash install.sh
 script:
   - travis_wait docker build -t scos-kube-bench:build .
 deploy:

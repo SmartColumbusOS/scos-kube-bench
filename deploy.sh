@@ -19,3 +19,5 @@ echo "Pushing to Dockerhub with tag ${TAGGED_IMAGE} ..."
 
 docker tag scos-kube-bench:build "${TAGGED_IMAGE}"
 docker push "${TAGGED_IMAGE}"
+
+helm upgrade --install ./chart --set image="${TAGGED_IMAGE}"
