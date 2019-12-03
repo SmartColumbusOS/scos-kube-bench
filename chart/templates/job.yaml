@@ -5,7 +5,11 @@ metadata:
 spec:
   schedule: "*/10 * * * *"
   jobTemplate:
+    metadata:
+      finalizers:
+        - foregroundDeletion
     spec:
+      backoffLimit: 0
       template:
         metadata:
           labels:
