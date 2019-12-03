@@ -54,7 +54,7 @@ def deployTo(environment, extraArgs = '') {
             set -e
 
             helm init --client-only
-            helm upgrade --install kube-bench ./chart --set image="smartcolumbusos/scos-kube-bench:development"
+            helm upgrade --install kube-bench ./chart --set image="smartcolumbusos/scos-kube-bench:development" --namespace=testing
             helm upgrade --install kube-bench ./chart \
                 --namespace=testing \
                 ${extraArgs}""")

@@ -6,7 +6,7 @@ failures=$(cat report.out | grep '\[FAIL\]' | /usr/bin/wc -l )
 
 if [ $failures != 0 ]; then
   exit 1
-  else
+else
   exit 0
 fi
 
