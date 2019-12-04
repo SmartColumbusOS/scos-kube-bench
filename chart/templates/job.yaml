@@ -6,6 +6,7 @@ spec:
   schedule: "*/10 * * * *"
   jobTemplate:
     spec:
+      concurrencyPolicy: Forbid
       backoffLimit: 0
       template:
         metadata:
