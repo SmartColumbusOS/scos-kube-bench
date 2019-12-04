@@ -39,8 +39,10 @@ node ('infrastructure') {
         }
 
         doStageIfRelease('Deploy to Production') {
-            sh "./deploy.sh release"
-            deployTo('prod', "${BRANCH_NAME}")
+            withCredentials([usernamePassword(credentialsId: 'dockerhub_login', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
+                sh "./deploy.sh release"
+                deployTo('prod', "${BRANCH_NAME}")
+            }
         }
     }
 }
