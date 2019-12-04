@@ -30,32 +30,31 @@ node ('infrastructure') {
 
 
         doStageIfDeployingToDev('Deploy to Dev') {
-            deployTo('dev', "--recreate-pods")
+            deployTo('dev', "${DEV_IMAGE_TAG}", "--recreate-pods")
         }
 
         doStageIfMergedToMaster('Deploy to Staging') {
             withCredentials([usernamePassword(credentialsId: 'dockerhub_login', passwordVariable: 'DOCKERHUB_PASSWORD', usernameVariable: 'DOCKERHUB_USERNAME')]) {
                 sh "./deploy.sh master"
-                deployTo('staging')
+                deployTo('staging', 'development')
             }
         }
 
         doStageIfRelease('Deploy to Production') {
             sh "./deploy.sh release"
-            deployTo('prod')
+            deployTo('prod', "${BRANCH_NAME}")
         }
     }
 }
 
-def deployTo(environment, extraArgs = '') {
+def deployTo(environment, tag, extraArgs = '') {
     scos.withEksCredentials(environment) {
         sh("""#!/bin/bash
-            echo wassup
             set -e
 
             helm init --client-only
-            helm upgrade --install kube-bench ./chart --set image="smartcolumbusos/scos-kube-bench:development" --namespace=testing
             helm upgrade --install kube-bench ./chart \
+                --set image="smartcolumbusos/scos-kube-bench:${tag}" \
                 --namespace=testing \
                 ${extraArgs}""")
     }
