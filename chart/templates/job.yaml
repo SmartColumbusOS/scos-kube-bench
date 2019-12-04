@@ -4,9 +4,9 @@ metadata:
   name: kube-bench
 spec:
   schedule: "0 7 * * *"
+  concurrencyPolicy: Forbid
   jobTemplate:
     spec:
-      concurrencyPolicy: Forbid
       backoffLimit: 0
       template:
         metadata:
