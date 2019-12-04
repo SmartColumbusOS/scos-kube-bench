@@ -24,10 +24,8 @@ node ('infrastructure') {
       DOCKERHUB_LOGIN = credentials('dockerhub_login')
     }
 
-
     ansiColor('xterm') {
         scos.doCheckoutStage()
-
 
         doStageIfDeployingToDev('Deploy to Dev') {
             deployTo('dev', "${DEV_IMAGE_TAG}", "--recreate-pods")
@@ -55,8 +53,7 @@ def deployTo(environment, tag, extraArgs = '') {
             helm init --client-only
             helm upgrade --install kube-bench ./chart \
                 --set image="smartcolumbusos/scos-kube-bench:${tag}" \
-                --namespace=testing \
+                --namespace=kube-bench \
                 ${extraArgs}""")
     }
 }
-
