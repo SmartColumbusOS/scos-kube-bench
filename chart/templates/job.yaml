@@ -16,6 +16,7 @@ spec:
           hostPID: true
           containers:
           - name: kube-bench
+            imagePullPolicy: Always
             image: {{.Values.image}}
             env:
             - name: IGNORED_BENCHMARKS
