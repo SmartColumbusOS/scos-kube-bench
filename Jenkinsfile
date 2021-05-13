@@ -49,9 +49,6 @@ node ('infrastructure') {
 def deployTo(environment, tag, extraArgs = '') {
     scos.withEksCredentials(environment) {
         sh("""#!/bin/bash
-            set -e
-
-            helm init --client-only
             helm upgrade --install kube-bench ./chart \
                 --set image="smartcolumbusos/scos-kube-bench:${tag}" \
                 --namespace=kube-bench \
